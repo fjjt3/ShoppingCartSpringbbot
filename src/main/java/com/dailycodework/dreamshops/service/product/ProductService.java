@@ -1,16 +1,40 @@
 package com.dailycodework.dreamshops.service.product;
 
 import com.dailycodework.dreamshops.extensions.ProductNotFoundException;
+import com.dailycodework.dreamshops.model.Category;
 import com.dailycodework.dreamshops.model.Product;
 import com.dailycodework.dreamshops.repository.ProductRepository;
+import com.dailycodework.dreamshops.request.AddProductRequest;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
+@Service
+@RequiredArgsConstructor
 public class ProductService implements IProductService{
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
     @Override
-    public Product addProduct(Product product) {
+    public Product addProduct(AddProductRequest request) {
+        //check if category is found in the db
+        // If yes, set it as a new product category
+        //IF no,then save it as a new category
+        //then set as the new produut category
+        // Category category = Optional.ofNullable());
+
         return null;
+    }
+
+    private Product createProduct(AddProductRequest request, Category category) {
+        return new Product(
+                request.getName(),
+                request.getBrand(),
+                request.getPrice(),
+                request.getInventory(),
+                request.getDescription(),
+                category
+        );
     }
 
     @Override
@@ -53,16 +77,16 @@ public class ProductService implements IProductService{
 
     @Override
     public List<Product> getProductsByName(String name) {
-        return null;
+        return productRepository.findByName(name);
     }
 
     @Override
     public List<Product> getProductsByBrandAndName(String brand, String name) {
-        return null;
+        return productRepository.findByBrandAndName(brand, name);
     }
 
     @Override
     public Long countProductsByBrandAndName(String brand, String name) {
-        return null;
+        return productRepository.countByBrandAndName(brand, name);
     }
 }
